@@ -1,0 +1,9 @@
+node_modules
+<<<<<<< HEAD
+.env
+=======
+dist
+.env
+.env.local
+.DS_Store
+>>>>>>> 210b1e0aeaeb611ca0243ca5dbf33d652154829f
