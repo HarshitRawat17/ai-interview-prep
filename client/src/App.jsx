@@ -1,21 +1,55 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Sidebar from './components/Sidebar'
 import HistoryView from './components/HistoryView'
+import Analytics from './components/Analytics'
 import { FeedbackPanel, DiffBadge } from './components/FeedbackPanel'
 import { useClaude } from './hooks/useAI'
 import { useHistory } from './hooks/useHistory'
 import { questions } from './data/questions'
+import CameraPanel from './components/CameraPanel'
+
+import useAuth from './hooks/useAuth'
+import AuthPage from './components/AuthPage'
+
+// CodeMirror
+import CodeMirror from '@uiw/react-codemirror'
+import { javascript } from '@codemirror/lang-javascript'
+import { dracula } from '@uiw/codemirror-theme-dracula'
 
 export default function App() {
+
+  const auth = useAuth()
+
   const [currentId, setCurrentId] = useState(1)
   const [answer, setAnswer] = useState('')
   const [result, setResult] = useState(null)
   const [view, setView] = useState('practice')
+  const [time, setTime] = useState(0)
+
+  const resultRef = useRef(null)
 
   const { getFeedback, loading } = useClaude()
-  const { history, addEntry, clearHistory } = useHistory()
+  const { history, addEntry, clearHistory } = useHistory(auth.getToken, auth.user)
 
-  const question = questions.find(q => q.id === currentId)
+  const question = questions?.find(q => q.id === currentId)
+
+  // TIMER
+  useEffect(() => {
+    const interval = setInterval(() => setTime(t => t + 1), 1000)
+    return () => clearInterval(interval)
+  }, [currentId])
+
+  useEffect(() => setTime(0), [currentId])
+
+  // AUTO SCROLL
+  useEffect(() => {
+    if (resultRef.current) {
+      resultRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [result])
+
+  if (!auth.user) return <AuthPage auth={auth} />
+  if (!question) return <div>Loading...</div>
 
   function handleSelect(id) {
     setCurrentId(id)
@@ -26,202 +60,197 @@ export default function App() {
 
   async function handleSubmit() {
     if (!answer.trim() || loading) return
+
     const res = await getFeedback(question.plain, answer)
+
     if (res) {
       setResult(res)
-      addEntry(question.id, question.title, answer, res.feedback, res.scores, res.avg)
+      addEntry(
+        question.id,
+        question.title,
+        answer,
+        res.feedback,
+        res.scores,
+        res.avg,
+        time
+      )
     }
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: 'var(--bg)' }}>
-      {/* Header */}
-      <header style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '0.85rem 1.5rem',
-        borderBottom: '0.5px solid var(--border)',
-        background: 'var(--bg)'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 17, fontWeight: 700, letterSpacing: '-0.3px' }}>
-          <div style={{
-            width: 10, height: 10,
-            background: '#1D9E75',
-            borderRadius: '50%',
-            animation: 'pulse 2s infinite'
-          }} />
-          InterviewAI
-          <style>{`@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(.85)} }`}</style>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span style={{ fontSize: 12, color: 'var(--text3)', fontFamily: 'JetBrains Mono, monospace' }}>
-            {history.length} attempts
-          </span>
-          <span style={{
-            fontSize: 11,
-            padding: '3px 10px',
-            borderRadius: 20,
-            background: 'var(--bg3)',
-            border: '0.5px solid var(--border)',
-            color: 'var(--text2)',
-            fontFamily: 'JetBrains Mono, monospace'
-          }}>
-            AI-powered
-          </span>
-        </div>
-      </header>
+    <div className="flex h-screen bg-gradient-to-br from-[#020617] via-[#020617] to-[#020617] text-white">
 
-      {/* Body */}
-      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+      {/* SIDEBAR */}
+      <div className="w-60 border-r border-slate-800 backdrop-blur-xl bg-white/5">
         <Sidebar
           currentId={currentId}
           onSelect={handleSelect}
           view={view}
           onViewChange={setView}
+          questions={questions}
+          onLogout={auth.logout}
         />
+      </div>
 
-        <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-          {view === 'history' ? (
-            <HistoryView history={history} onClear={clearHistory} />
-          ) : (
-            <>
-              {/* Question */}
-              <div style={{
-                padding: '1.5rem 2rem 1rem',
-                borderBottom: '0.5px solid var(--border)',
-                background: 'var(--bg)'
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: '0.75rem' }}>
+      {/* MAIN */}
+      <div className="flex-1 flex flex-col">
+
+        {/* HEADER */}
+        <header className="h-14 border-b border-slate-800 flex items-center justify-between px-6 backdrop-blur-xl bg-white/5">
+
+          <div className="flex items-center gap-3">
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <span className="font-semibold tracking-wide text-sm">
+              InterviewAI
+            </span>
+          </div>
+
+          <div className="flex gap-3 text-sm">
+
+            <div className="px-4 py-1.5 rounded-lg border border-slate-700 bg-white/5 backdrop-blur">
+              {history.length} attempts
+            </div>
+
+            <div className="px-4 py-1.5 rounded-lg border border-slate-700 bg-white/5 backdrop-blur text-green-400 font-medium">
+              ⏱ {String(Math.floor(time / 60)).padStart(2, '0')}:
+              {String(time % 60).padStart(2, '0')}
+            </div>
+
+          </div>
+
+        </header>
+
+        {/* CONTENT */}
+        <div className="flex gap-6 p-6 justify-center overflow-y-auto">
+
+          {/* CENTER */}
+          <div className="w-[720px] space-y-5 max-h-[calc(100vh-80px)] overflow-y-auto pr-2 custom-scroll">
+
+            {/* TABS */}
+            <div className="flex gap-2 bg-white/5 p-1 rounded-xl backdrop-blur border border-slate-800 w-fit">
+
+              {['practice', 'history', 'analytics'].map(tab => (
+                <button
+                  key={tab}
+                  onClick={() => setView(tab)}
+                  className={`px-4 py-1.5 rounded-lg text-sm capitalize transition-all
+                    ${
+                      view === tab
+                        ? 'bg-indigo-600 text-white shadow-md'
+                        : 'text-gray-400 hover:text-white'
+                    }`}
+                >
+                  {tab}
+                </button>
+              ))}
+
+            </div>
+
+            {/* PRACTICE */}
+            {view === 'practice' && (
+              <>
+                {/* QUESTION CARD */}
+                <div className="p-6 rounded-2xl border border-slate-800 bg-white/5 backdrop-blur-xl shadow-lg">
+
                   <DiffBadge diff={question.difficulty} />
-                  <span style={{ fontSize: 11, color: 'var(--text3)', fontFamily: 'JetBrains Mono, monospace' }}>
-                    {question.category} · {question.tag}
-                  </span>
-                </div>
-                <div
-                  style={{ fontSize: 16, fontWeight: 500, lineHeight: 1.6 }}
-                  dangerouslySetInnerHTML={{ __html: question.text }}
-                />
-                {question.hint && (
-                  <div style={{
-                    marginTop: '0.75rem',
-                    fontSize: 12,
-                    color: 'var(--text3)',
-                    fontFamily: 'JetBrains Mono, monospace',
-                    padding: '0.4rem 0.75rem',
-                    borderLeft: '2px solid var(--border2)',
-                    background: 'var(--bg3)',
-                    borderRadius: '0 6px 6px 0'
-                  }}>
-                    💡 Hint: {question.hint}
-                  </div>
-                )}
-              </div>
 
-              {/* Answer + Feedback area */}
-              <div style={{ flex: 1, overflowY: 'auto', padding: '1.25rem 2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <div style={{ fontSize: 11, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.8px', fontFamily: 'JetBrains Mono, monospace' }}>
-                  Your Answer
+                  <h2 className="text-xl mt-3 font-semibold">
+                    {question.title}
+                  </h2>
+
+                  <p className="text-gray-300 mt-3 leading-relaxed">
+                    {question.text}
+                  </p>
+
+                  {question.input && (
+                    <div className="mt-4 p-3 rounded-lg bg-black/40 border border-slate-700 text-sm">
+                      <span className="text-gray-400">Input:</span>
+                      <pre className="mt-1 text-gray-200">{question.input}</pre>
+                    </div>
+                  )}
+
+                  {question.output && (
+                    <div className="mt-3 p-3 rounded-lg bg-black/40 border border-slate-700 text-sm">
+                      <span className="text-gray-400">Output:</span>
+                      <pre className="mt-1 text-gray-200">{question.output}</pre>
+                    </div>
+                  )}
+
                 </div>
 
-                <textarea
-                  value={answer}
-                  onChange={e => setAnswer(e.target.value)}
-                  placeholder="Type your solution, approach, or explanation here..."
-                  style={{
-                    width: '100%',
-                    minHeight: 150,
-                    resize: 'vertical',
-                    padding: '0.85rem 1rem',
-                    borderRadius: 8,
-                    border: '0.5px solid var(--border2)',
-                    background: 'var(--bg2)',
-                    color: 'var(--text)',
-                    fontFamily: 'JetBrains Mono, monospace',
-                    fontSize: 13,
-                    lineHeight: 1.7,
-                    outline: 'none'
-                  }}
-                />
+                {/* EDITOR */}
+                <div className="rounded-xl overflow-hidden border border-slate-800 shadow-lg">
+                  <CodeMirror
+                    value={answer}
+                    height="240px"
+                    theme={dracula}
+                    extensions={[javascript()]}
+                    onChange={setAnswer}
+                  />
+                </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                {/* ACTIONS */}
+                <div className="flex gap-3">
+
                   <button
                     onClick={handleSubmit}
-                    disabled={loading || !answer.trim()}
-                    style={{
-                      padding: '0.55rem 1.25rem',
-                      background: 'var(--text)',
-                      color: 'var(--bg)',
-                      border: 'none',
-                      borderRadius: 8,
-                      fontFamily: 'Syne, sans-serif',
-                      fontSize: 14,
-                      fontWeight: 500,
-                      cursor: loading || !answer.trim() ? 'not-allowed' : 'pointer',
-                      opacity: loading || !answer.trim() ? 0.4 : 1,
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 6
-                    }}
+                    disabled={loading}
+                    className={`flex-1 py-2.5 rounded-xl font-medium transition-all
+                      ${
+                        loading
+                          ? 'bg-gray-600 cursor-not-allowed'
+                          : 'bg-gradient-to-r from-indigo-500 to-purple-500 hover:opacity-90 shadow-md'
+                      }`}
                   >
-                    {loading ? (
-                      <>
-                        <span style={{
-                          width: 13, height: 13,
-                          border: '2px solid rgba(0,0,0,0.3)',
-                          borderTopColor: '#000',
-                          borderRadius: '50%',
-                          display: 'inline-block',
-                          animation: 'spin 0.7s linear infinite'
-                        }} />
-                        <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
-                        Analyzing...
-                      </>
-                    ) : 'Get AI Feedback'}
+                    {loading ? 'Analyzing...' : 'Get AI Feedback'}
                   </button>
 
                   <button
-                    onClick={() => { setAnswer(''); setResult(null) }}
-                    style={{
-                      padding: '0.55rem 1rem',
-                      background: 'transparent',
-                      color: 'var(--text2)',
-                      border: '0.5px solid var(--border)',
-                      borderRadius: 8,
-                      fontFamily: 'Syne, sans-serif',
-                      fontSize: 14,
-                      cursor: 'pointer'
+                    onClick={() => {
+                      setAnswer('')
+                      setResult(null)
                     }}
+                    className="px-4 py-2.5 rounded-xl border border-slate-700 hover:bg-white/5 transition"
                   >
                     Clear
                   </button>
+
                 </div>
 
-                {result ? (
-                  <FeedbackPanel result={result} />
-                ) : (
-                  <div style={{
-                    display: 'flex', flexDirection: 'column', alignItems: 'center',
-                    justifyContent: 'center', flex: 1, gap: 8,
-                    color: 'var(--text3)', fontSize: 13
-                  }}>
-                    <div style={{
-                      width: 38, height: 38,
-                      border: '0.5px solid var(--border)',
-                      borderRadius: '50%',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: 16
-                    }}>✦</div>
-                    Write your answer and get AI feedback
-                    <span style={{ fontSize: 11, fontFamily: 'JetBrains Mono, monospace' }}>
-                      Scored on Correctness · Clarity · Efficiency
-                    </span>
+                {/* RESULT */}
+                {result && (
+                  <div ref={resultRef} className="mt-4">
+                    <FeedbackPanel result={result} />
                   </div>
                 )}
-              </div>
-            </>
-          )}
-        </main>
+              </>
+            )}
+
+            {view === 'history' && (
+              <HistoryView history={history} onClear={clearHistory} />
+            )}
+
+            {view === 'analytics' && (
+              <Analytics history={history} />
+            )}
+
+          </div>
+
+          {/* RIGHT PANEL */}
+          <div className="w-[300px] space-y-4">
+
+            <CameraPanel />
+
+            <div className="p-4 rounded-xl border border-slate-800 bg-white/5 backdrop-blur shadow-lg">
+              <h4 className="text-sm text-gray-400">Confidence</h4>
+              <p className="text-2xl text-green-400 mt-2 font-semibold">
+                {result ? `${result.avg * 10}%` : '--'}
+              </p>
+            </div>
+
+          </div>
+
+        </div>
       </div>
     </div>
   )

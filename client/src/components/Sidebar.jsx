@@ -1,109 +1,102 @@
-import React from 'react'
-import { questions } from '../data/questions'
+import { useState } from "react"
 
-const TAG_COLORS = {
-  DSA: { bg: '#0c2a4a', color: '#378ADD' },
-  HR: { bg: '#0a2e20', color: '#1D9E75' },
-  'System Design': { bg: '#2e1f07', color: '#BA7517' }
-}
+export default function Sidebar({
+  currentId,
+  onSelect,
+  questions,
+  onLogout
+}) {
 
-export default function Sidebar({ currentId, onSelect, view, onViewChange }) {
-  const categories = ['DSA', 'HR', 'System Design']
+  const categories = ["DSA", "HR", "System Design", "CS Fundamentals"]
+  const [activeCategory, setActiveCategory] = useState("DSA")
+
+  const getDifficultyColor = (diff) => {
+    if (diff === "Easy") return "text-green-400"
+    if (diff === "Medium") return "text-yellow-400"
+    if (diff === "Hard") return "text-red-400"
+    return "text-gray-400"
+  }
+
+  const filtered = questions.filter(q => q.category === activeCategory)
 
   return (
-    <aside style={{
-      width: 230,
-      minWidth: 230,
-      borderRight: '0.5px solid var(--border)',
-      display: 'flex',
-      flexDirection: 'column',
-      overflowY: 'auto',
-      background: 'var(--bg)'
-    }}>
-      {/* View toggle */}
-      <div style={{ padding: '0.75rem 1rem', borderBottom: '0.5px solid var(--border)', display: 'flex', gap: 6 }}>
-        {['practice', 'history'].map(v => (
-          <button
-            key={v}
-            onClick={() => onViewChange(v)}
-            style={{
-              flex: 1,
-              padding: '0.4rem',
-              borderRadius: 6,
-              border: '0.5px solid var(--border)',
-              background: view === v ? 'var(--bg3)' : 'transparent',
-              color: view === v ? 'var(--text)' : 'var(--text2)',
-              fontFamily: 'Syne, sans-serif',
-              fontSize: 12,
-              fontWeight: view === v ? 500 : 400,
-              cursor: 'pointer',
-              textTransform: 'capitalize'
-            }}
-          >
-            {v === 'practice' ? '⌨ Practice' : '📋 History'}
-          </button>
-        ))}
-      </div>
+    <div className="h-full flex flex-col">
 
-      {/* Question list */}
-      <div style={{ padding: '0.75rem 0.75rem', flex: 1 }}>
-        {categories.map(cat => {
-          const catQs = questions.filter(q => q.category === cat)
-          return (
-            <div key={cat}>
-              <div style={{
-                fontSize: 10,
-                letterSpacing: '1.2px',
-                textTransform: 'uppercase',
-                color: 'var(--text3)',
-                padding: '0.5rem 0.5rem 0.25rem',
-                marginTop: '0.5rem'
-              }}>
+      {/* SCROLL AREA */}
+      <div className="flex-1 overflow-y-auto custom-scroll px-4 py-4">
+
+        {/* CATEGORY SECTION */}
+        <div className="mb-6">
+          <h3 className="text-xs text-gray-500 uppercase mb-2 tracking-wider">
+            Category
+          </h3>
+
+          <div className="space-y-1">
+            {categories.map(cat => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`block text-sm px-3 py-2 rounded-lg w-full text-left transition
+                  ${
+                    activeCategory === cat
+                      ? 'bg-indigo-600 text-white'
+                      : 'text-gray-400 hover:bg-slate-800 hover:text-white'
+                  }`}
+              >
                 {cat}
-              </div>
-              {catQs.map(q => (
-                <button
-                  key={q.id}
-                  onClick={() => onSelect(q.id)}
-                  style={{
-                    width: '100%',
-                    textAlign: 'left',
-                    background: currentId === q.id ? 'var(--bg3)' : 'transparent',
-                    border: '0.5px solid ' + (currentId === q.id ? 'var(--border2)' : 'transparent'),
-                    borderRadius: 8,
-                    padding: '0.5rem 0.6rem',
-                    cursor: 'pointer',
-                    marginBottom: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 3
-                  }}
-                >
-                  <span style={{
-                    display: 'inline-block',
-                    fontSize: 10,
-                    padding: '1px 6px',
-                    borderRadius: 4,
-                    fontFamily: 'JetBrains Mono, monospace',
-                    background: TAG_COLORS[cat].bg,
-                    color: TAG_COLORS[cat].color
-                  }}>
-                    {q.tag}
-                  </span>
-                  <span style={{
-                    fontSize: 13,
-                    color: currentId === q.id ? 'var(--text)' : 'var(--text2)',
-                    fontWeight: currentId === q.id ? 500 : 400,
-                    lineHeight: 1.3
-                  }}>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* QUESTIONS SECTION */}
+        <div>
+          <h3 className="text-xs text-gray-500 uppercase mb-2 tracking-wider">
+            Questions
+          </h3>
+
+          <div className="space-y-1">
+
+            {filtered.map(q => (
+              <button
+                key={q.id}
+                onClick={() => onSelect(q.id)}
+                className={`w-full text-left px-3 py-2 rounded-lg text-sm transition
+                  ${
+                    currentId === q.id
+                      ? 'bg-indigo-600 text-white'
+                      : 'text-gray-400 hover:bg-slate-800 hover:text-white'
+                  }`}
+              >
+                <div className="flex justify-between items-center gap-2">
+                  
+                  <span className="truncate">
                     {q.title}
                   </span>
-                </button>
-              ))}
-            </div>
-          )
-        })}
+
+                  <span className={`text-xs ${getDifficultyColor(q.difficulty)}`}>
+                    {q.difficulty}
+                  </span>
+
+                </div>
+              </button>
+            ))}
+
+          </div>
+        </div>
+
       </div>
-    </aside>
+
+      {/* LOGOUT BUTTON */}
+      <div className="p-4 border-t border-slate-800">
+        <button
+          onClick={onLogout}
+          className="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg text-sm font-medium"
+        >
+          Logout
+        </button>
+      </div>
+
+    </div>
   )
 }

@@ -1,35 +1,21 @@
 const mongoose = require('mongoose')
 
-// This defines the structure of each attempt saved in MongoDB
 const attemptSchema = new mongoose.Schema({
-  questionId: {
-    type: Number,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     required: true
   },
-  questionTitle: {
-    type: String,
-    required: true
-  },
-  answer: {
-    type: String,
-    required: true
-  },
-  feedback: {
-    type: String,
-    required: true
-  },
-  scores: {
-    correctness: Number,
-    clarity: Number,
-    efficiency: Number
-  },
-  avg: {
-    type: Number
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
-})
+  questionId: Number,
+  title: String,
+  answer: String,
+  feedback: String,
+  scores: Object,
+  avg: Number,
+
+  // ✅ NEW FIELD
+  timeTaken: Number   // in seconds
+
+}, { timestamps: true })
 
 module.exports = mongoose.model('Attempt', attemptSchema)

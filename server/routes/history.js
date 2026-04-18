@@ -1,56 +1,46 @@
 const express = require('express')
-const Attempt = require('../models/Attempt')
 const router = express.Router()
 
-// POST /api/history — save a new attempt to MongoDB
-router.post('/', async (req, res) => {
-  const { questionId, questionTitle, answer, feedback, scores, avg } = req.body
+const Attempt = require('../models/Attempt')
+const auth = require('../middleware/auth')
 
-  if (!questionId || !questionTitle || !answer || !feedback) {
-    return res.status(400).json({ error: 'Missing required fields' })
-  }
-
+// GET history
+router.get('/', auth, async (req, res) => {
   try {
-    const attempt = new Attempt({
-      questionId,
-      questionTitle,
-      answer,
-      feedback,
-      scores,
-      avg
+    const attempts = await Attempt.find({
+      user: req.userId
+    }).sort({ createdAt: -1 })
+
+    res.json(attempts)
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+// POST attempt
+router.post('/', auth, async (req, res) => {
+  try {
+    const attempt = await Attempt.create({
+      user: req.userId,
+      ...req.body
     })
 
-    await attempt.save()
-    return res.status(201).json({ message: 'Attempt saved!', attempt })
-
+    res.json(attempt)
   } catch (err) {
-    console.error('Error saving attempt:', err.message)
-    return res.status(500).json({ error: 'Failed to save attempt' })
+    res.status(500).json({ error: err.message })
   }
 })
 
-// GET /api/history — fetch all past attempts from MongoDB
-router.get('/', async (req, res) => {
+// DELETE history
+router.delete('/', auth, async (req, res) => {
   try {
-    const attempts = await Attempt.find()
-      .sort({ createdAt: -1 })
-      .limit(50)
+    await Attempt.deleteMany({
+      user: req.userId
+    })
 
-    return res.status(200).json(attempts)
-
+    res.json({ success: true })
   } catch (err) {
-    console.error('Error fetching history:', err.message)
-    return res.status(500).json({ error: 'Failed to fetch history' })
-  }
-})
-
-// DELETE /api/history — clear all attempts
-router.delete('/', async (req, res) => {
-  try {
-    await Attempt.deleteMany({})
-    return res.status(200).json({ message: 'History cleared!' })
-  } catch (err) {
-    return res.status(500).json({ error: 'Failed to clear history' })
+    res.status(500).json({ error: err.message })
   }
 })
 

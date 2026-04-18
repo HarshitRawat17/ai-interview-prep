@@ -1,127 +1,361 @@
 export const questions = [
-  // ── DSA ──────────────────────────────────────────────────────────────
+
+  // ================= DSA (15) =================
   {
     id: 1,
-    title: "Two Sum",
-    text: "Given an array of integers <code>nums</code> and an integer <code>target</code>, return indices of the two numbers such that they add up to target. You may assume each input has exactly one solution.",
-    plain: "Two Sum: Given an array nums and a target, return indices of two numbers that add up to target.",
-    difficulty: "Easy",
     category: "DSA",
-    tag: "Array",
-    hint: "Think about using a hash map to store visited numbers."
+    title: "Two Sum",
+    difficulty: "Easy",
+    text: "Given an array and a target, return indices of two numbers that add up to the target.",
+    input: "nums = [2,7,11,15], target = 9",
+    output: "[0,1]",
+    plain: "Two sum problem"
   },
   {
     id: 2,
-    title: "Longest Common Subsequence",
-    text: "Given two strings <code>text1</code> and <code>text2</code>, return the length of their <strong>Longest Common Subsequence</strong>. A subsequence is derived by deleting some characters without changing the order.",
-    plain: "Longest Common Subsequence: Given two strings, find the length of their longest common subsequence.",
-    difficulty: "Hard",
     category: "DSA",
-    tag: "DP",
-    hint: "Use a 2D DP table. dp[i][j] = LCS of first i chars of text1 and first j chars of text2."
+    title: "Reverse Linked List",
+    difficulty: "Easy",
+    text: "Reverse a singly linked list.",
+    input: "1 -> 2 -> 3 -> 4",
+    output: "4 -> 3 -> 2 -> 1",
+    plain: "Reverse linked list"
   },
   {
     id: 3,
-    title: "Level Order Traversal",
-    text: "Given the root of a binary tree, return the <strong>level order traversal</strong> of its node values — left to right, level by level.",
-    plain: "Level Order Traversal of a binary tree.",
-    difficulty: "Medium",
     category: "DSA",
-    tag: "Tree",
-    hint: "Use a queue (BFS). Process nodes level by level."
+    title: "Valid Parentheses",
+    difficulty: "Easy",
+    text: "Check if a string of brackets is valid.",
+    input: "()[]{}",
+    output: "true",
+    plain: "Valid parentheses problem"
   },
   {
     id: 4,
-    title: "Reverse Linked List",
-    text: "Given the head of a singly linked list, reverse it and return the reversed list.",
-    plain: "Reverse a singly linked list.",
-    difficulty: "Easy",
     category: "DSA",
-    tag: "LinkedList",
-    hint: "Use three pointers: prev, curr, next. Iterative approach is O(n) time, O(1) space."
+    title: "Maximum Subarray",
+    difficulty: "Easy",
+    text: "Find the contiguous subarray with the largest sum.",
+    input: "[-2,1,-3,4,-1,2,1,-5,4]",
+    output: "6",
+    plain: "Kadane algorithm"
   },
   {
     id: 5,
-    title: "Valid Parentheses",
-    text: "Given a string containing just the characters <code>(</code>, <code>)</code>, <code>{</code>, <code>}</code>, <code>[</code>, <code>]</code>, determine if the input string is valid.",
-    plain: "Check if a string of brackets is valid (properly opened and closed).",
-    difficulty: "Easy",
     category: "DSA",
-    tag: "Stack",
-    hint: "Use a stack. Push opening brackets, pop and match when you see a closing bracket."
+    title: "Climbing Stairs",
+    difficulty: "Easy",
+    text: "Find how many ways to climb n stairs.",
+    input: "n = 5",
+    output: "8",
+    plain: "Climbing stairs DP"
   },
   {
     id: 6,
-    title: "Merge K Sorted Lists",
-    text: "You are given an array of <code>k</code> linked lists, each sorted in ascending order. Merge all the linked lists into one sorted list and return it.",
-    plain: "Merge k sorted linked lists into one sorted list.",
-    difficulty: "Hard",
     category: "DSA",
-    tag: "Heap",
-    hint: "Use a min-heap of size k. Always extract the minimum and push the next node from that list."
+    title: "Binary Search",
+    difficulty: "Easy",
+    text: "Search a target in a sorted array.",
+    input: "nums = [1,2,3,4,5], target = 4",
+    output: "3",
+    plain: "Binary search"
   },
-
-  // ── HR ────────────────────────────────────────────────────────────────
   {
     id: 7,
-    title: "Tell me about yourself",
-    text: "<strong>Tell me about yourself.</strong> Walk me through your background, skills, and why you're applying for this software engineering role.",
-    plain: "Tell me about yourself for a software engineering interview.",
-    difficulty: "Easy",
-    category: "HR",
-    tag: "Introduction",
-    hint: "Use the Present → Past → Future structure. Keep it under 2 minutes."
+    category: "DSA",
+    title: "Level Order Traversal",
+    difficulty: "Medium",
+    text: "Return level order traversal of a binary tree.",
+    input: "[3,9,20,null,null,15,7]",
+    output: "[[3],[9,20],[15,7]]",
+    plain: "Tree level order traversal"
   },
   {
     id: 8,
-    title: "Biggest weakness?",
-    text: "<strong>What is your biggest weakness?</strong> Be honest, but also demonstrate self-awareness and how you're actively improving.",
-    plain: "What is your biggest weakness? Show self-awareness and improvement.",
-    difficulty: "Medium",
-    category: "HR",
-    tag: "Behavioral",
-    hint: "Pick a real weakness, but pair it with concrete steps you're taking to fix it."
+    category: "DSA",
+    title: "Longest Common Subsequence",
+    difficulty: "Hard",
+    text: "Find length of longest common subsequence of two strings.",
+    input: "text1 = 'abcde', text2 = 'ace'",
+    output: "3",
+    plain: "LCS dynamic programming"
   },
   {
     id: 9,
-    title: "Why this company?",
-    text: "<strong>Why do you want to work here?</strong> Show that you've researched the company and align with their mission or tech stack.",
-    plain: "Why do you want to work at this company?",
-    difficulty: "Medium",
-    category: "HR",
-    tag: "Motivation",
-    hint: "Research the company's products, tech stack, and recent news before answering."
+    category: "DSA",
+    title: "Merge K Sorted Lists",
+    difficulty: "Hard",
+    text: "Merge k sorted linked lists into one sorted list.",
+    input: "[[1,4,5],[1,3,4],[2,6]]",
+    output: "[1,1,2,3,4,4,5,6]",
+    plain: "Merge k sorted lists"
   },
   {
     id: 10,
-    title: "Conflict with teammate",
-    text: "<strong>Tell me about a time you had a conflict with a teammate.</strong> How did you handle it and what was the outcome?",
-    plain: "Describe a conflict with a teammate and how you resolved it.",
+    category: "DSA",
+    title: "Number of Islands",
     difficulty: "Medium",
-    category: "HR",
-    tag: "Behavioral",
-    hint: "Use the STAR method: Situation, Task, Action, Result."
+    text: "Count number of islands in a 2D grid.",
+    input: "grid of 0s and 1s",
+    output: "number of islands",
+    plain: "Number of islands graph"
   },
-
-  // ── System Design ─────────────────────────────────────────────────────
   {
     id: 11,
-    title: "Design a URL shortener",
-    text: "<strong>Design a URL shortener</strong> (like bit.ly). Cover system components, data model, scalability considerations, and trade-offs.",
-    plain: "Design a URL shortener like bit.ly — components, data model, scaling, trade-offs.",
-    difficulty: "Hard",
-    category: "System Design",
-    tag: "Design",
-    hint: "Think about: hashing strategy, database choice (SQL vs NoSQL), caching, and redirect latency."
+    category: "DSA",
+    title: "Longest Substring Without Repeating Characters",
+    difficulty: "Medium",
+    text: "Find longest substring without repeating characters.",
+    input: "abcabcbb",
+    output: "3",
+    plain: "Sliding window substring"
   },
   {
     id: 12,
-    title: "Design a Chat App",
-    text: "<strong>Design a real-time chat application</strong> (like WhatsApp). Focus on message delivery, storage, online/offline handling, and scaling to millions of users.",
-    plain: "Design a real-time chat app like WhatsApp.",
-    difficulty: "Hard",
+    category: "DSA",
+    title: "Word Search",
+    difficulty: "Medium",
+    text: "Check if a word exists in a grid.",
+    input: "board + word",
+    output: "true/false",
+    plain: "Backtracking word search"
+  },
+  {
+    id: 13,
+    category: "DSA",
+    title: "Merge Intervals",
+    difficulty: "Medium",
+    text: "Merge overlapping intervals.",
+    input: "[[1,3],[2,6],[8,10]]",
+    output: "[[1,6],[8,10]]",
+    plain: "Merge intervals"
+  },
+  {
+    id: 14,
+    category: "DSA",
+    title: "Kth Largest Element",
+    difficulty: "Medium",
+    text: "Find kth largest element.",
+    input: "[3,2,1,5,6,4], k=2",
+    output: "5",
+    plain: "Kth largest element"
+  },
+  {
+    id: 15,
+    category: "DSA",
+    title: "Detect Cycle in Linked List",
+    difficulty: "Medium",
+    text: "Detect if linked list has a cycle.",
+    input: "linked list",
+    output: "true/false",
+    plain: "Cycle detection"
+  },
+
+  // ================= HR (8) =================
+  {
+    id: 16,
+    category: "HR",
+    title: "Tell me about yourself",
+    difficulty: "Easy",
+    text: "Walk me through your background and skills.",
+    input: null,
+    output: null,
+    plain: "HR intro question"
+  },
+  {
+    id: 17,
+    category: "HR",
+    title: "Biggest weakness",
+    difficulty: "Medium",
+    text: "What is your biggest weakness?",
+    input: null,
+    output: null,
+    plain: "Weakness question"
+  },
+  {
+    id: 18,
+    category: "HR",
+    title: "Why this company",
+    difficulty: "Medium",
+    text: "Why do you want to work here?",
+    input: null,
+    output: null,
+    plain: "Company motivation"
+  },
+  {
+    id: 19,
+    category: "HR",
+    title: "Conflict with teammate",
+    difficulty: "Medium",
+    text: "Describe a conflict and resolution.",
+    input: null,
+    output: null,
+    plain: "Conflict question"
+  },
+  {
+    id: 20,
+    category: "HR",
+    title: "Where do you see yourself in 5 years",
+    difficulty: "Medium",
+    text: "Explain your career goals.",
+    input: null,
+    output: null,
+    plain: "Future goals"
+  },
+  {
+    id: 21,
+    category: "HR",
+    title: "Why should we hire you",
+    difficulty: "Medium",
+    text: "Explain why you are the best fit.",
+    input: null,
+    output: null,
+    plain: "Hire me pitch"
+  },
+  {
+    id: 22,
+    category: "HR",
+    title: "Describe a challenging project",
+    difficulty: "Medium",
+    text: "Talk about a difficult project.",
+    input: null,
+    output: null,
+    plain: "Project challenge"
+  },
+  {
+    id: 23,
+    category: "HR",
+    title: "Strength",
+    difficulty: "Easy",
+    text: "What is your biggest strength?",
+    input: null,
+    output: null,
+    plain: "Strength question"
+  },
+
+  // ================= SYSTEM DESIGN (5) =================
+  {
+    id: 24,
     category: "System Design",
-    tag: "Design",
-    hint: "Consider WebSockets for real-time, message queues for reliability, and a fan-out service for group chats."
+    title: "Design URL Shortener",
+    difficulty: "Hard",
+    text: "Design a system like bit.ly",
+    input: null,
+    output: null,
+    plain: "URL shortener design"
+  },
+  {
+    id: 25,
+    category: "System Design",
+    title: "Design Chat App",
+    difficulty: "Hard",
+    text: "Design WhatsApp-like system.",
+    input: null,
+    output: null,
+    plain: "Chat system design"
+  },
+  {
+    id: 26,
+    category: "System Design",
+    title: "Design Parking Lot",
+    difficulty: "Medium",
+    text: "Design OOP parking lot system.",
+    input: null,
+    output: null,
+    plain: "Parking lot design"
+  },
+  {
+    id: 27,
+    category: "System Design",
+    title: "Design Netflix",
+    difficulty: "Hard",
+    text: "Design streaming platform.",
+    input: null,
+    output: null,
+    plain: "Netflix system design"
+  },
+  {
+    id: 28,
+    category: "System Design",
+    title: "Design Rate Limiter",
+    difficulty: "Hard",
+    text: "Design API rate limiter.",
+    input: null,
+    output: null,
+    plain: "Rate limiter design"
+  },
+
+  // ================= CS FUNDAMENTALS (7) =================
+  {
+    id: 29,
+    category: "CS Fundamentals",
+    title: "What is Deadlock",
+    difficulty: "Medium",
+    text: "Explain deadlock and conditions.",
+    input: null,
+    output: null,
+    plain: "Deadlock OS"
+  },
+  {
+    id: 30,
+    category: "CS Fundamentals",
+    title: "Process vs Thread",
+    difficulty: "Easy",
+    text: "Difference between process and thread.",
+    input: null,
+    output: null,
+    plain: "Process vs thread"
+  },
+  {
+    id: 31,
+    category: "CS Fundamentals",
+    title: "Normalization",
+    difficulty: "Medium",
+    text: "Explain database normalization.",
+    input: null,
+    output: null,
+    plain: "DB normalization"
+  },
+  {
+    id: 32,
+    category: "CS Fundamentals",
+    title: "SQL vs NoSQL",
+    difficulty: "Medium",
+    text: "Compare SQL and NoSQL.",
+    input: null,
+    output: null,
+    plain: "SQL vs NoSQL"
+  },
+  {
+    id: 33,
+    category: "CS Fundamentals",
+    title: "TCP vs UDP",
+    difficulty: "Medium",
+    text: "Difference between TCP and UDP.",
+    input: null,
+    output: null,
+    plain: "TCP vs UDP"
+  },
+  {
+    id: 34,
+    category: "CS Fundamentals",
+    title: "What happens when you type a URL",
+    difficulty: "Medium",
+    text: "Explain full flow.",
+    input: null,
+    output: null,
+    plain: "URL process"
+  },
+  {
+    id: 35,
+    category: "CS Fundamentals",
+    title: "Virtual Memory",
+    difficulty: "Medium",
+    text: "Explain virtual memory and paging.",
+    input: null,
+    output: null,
+    plain: "Virtual memory"
   }
+
 ]
