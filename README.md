@@ -1,237 +1,231 @@
 # InterviewAI 🤖
 
-> AI-powered interview preparation platform for software engineering placements.  
-> Practice DSA, HR, and System Design questions with **instant AI feedback powered by Groq (LLaMA 3).**
+<div align="center">
 
-![React](https://img.shields.io/badge/Frontend-React%2018-blue?style=flat-square)
-![Node](https://img.shields.io/badge/Backend-Node.js-green?style=flat-square)
-![Groq](https://img.shields.io/badge/AI-Groq%20LLaMA3-orange?style=flat-square)
-![Vite](https://img.shields.io/badge/Build-Vite-purple?style=flat-square)
-![License](https://img.shields.io/badge/License-MIT-brightgreen?style=flat-square)
+![InterviewAI Banner](https://img.shields.io/badge/InterviewAI-BTech%20CSE%202026-6C63FF?style=for-the-badge&logo=react)
 
----
+**AI-powered interview preparation tool for software engineering placements**
 
-# 🎯 Overview
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react)](https://reactjs.org)
+[![Node.js](https://img.shields.io/badge/Node.js-Express-339933?style=flat-square&logo=node.js)](https://nodejs.org)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=flat-square&logo=mongodb)](https://mongodb.com)
+[![Groq](https://img.shields.io/badge/Groq-LLaMA3-F55036?style=flat-square)](https://groq.com)
+[![JWT](https://img.shields.io/badge/Auth-JWT-000000?style=flat-square&logo=jsonwebtokens)](https://jwt.io)
+[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
-**InterviewAI** is a full-stack AI-powered interview preparation platform designed to help students practice real interview questions and receive **instant AI-generated feedback**.
+[Live Demo](#) · [Report Bug](https://github.com/HarshitRawat17/interview-ai/issues) · [Request Feature](https://github.com/HarshitRawat17/interview-ai/issues)
 
-Instead of just telling whether an answer is correct, the system evaluates:
-
-- ✅ **Correctness**
-- 💬 **Clarity**
-- ⚡ **Efficiency**
-
-This helps simulate **real technical interview feedback**.
-
-Built specifically for **BTech CSE placement preparation.**
+</div>
 
 ---
 
-# ✨ Features
+## 📸 Screenshots
 
-- 🧠 AI-powered feedback using **Groq LLaMA 3**
-- 📚 Curated interview questions (DSA, HR, System Design)
-- 📊 Scoring system (Correctness, Clarity, Efficiency)
-- 🕘 Practice attempt history
-- 🏷 Difficulty badges (Easy / Medium / Hard)
-- 💡 Hints for each question
-- 🌙 Dark mode interface
-- ⚡ Fast responses using Groq inference
+| Practice | History | Analytics |
+|----------|---------|-----------|
+| ![Practice](https://via.placeholder.com/300x180/1a1a2e/6C63FF?text=Practice+View) | ![History](https://via.placeholder.com/300x180/1a1a2e/1D9E75?text=History+View) | ![Analytics](https://via.placeholder.com/300x180/1a1a2e/BA7517?text=Analytics+View) |
 
 ---
 
-# 🛠 Tech Stack
+## 🎯 What is InterviewAI?
 
-| Layer | Technology |
-|------|-----------|
-| Frontend | React 18 + Vite |
-| Backend | Node.js + Express |
-| Database | MongoDB |
-| AI | Groq API (LLaMA 3) |
-| Styling | CSS Variables |
-| Storage | MongoDB + Local State |
+InterviewAI is a full-stack web application that helps BTech CSE students prepare for placement interviews. Practice real interview questions and get **instant AI feedback** scored on Correctness, Clarity, and Efficiency — powered by LLaMA 3 via Groq API.
+
+### Why I built this
+As a BTech CSE 2026 placement student, I needed a tool that gives honest, actionable feedback on interview answers — not just right/wrong, but *why* an answer is good or bad. I also wanted to simulate real interview pressure, which led to the camera confidence tracking feature.
 
 ---
 
-# 📁 Project Structure
+## ✨ Features
 
-```
-interview-ai
-│
-├── client                # React frontend
-│   ├── src
-│   │   ├── components
-│   │   │   ├── Sidebar.jsx
-│   │   │   ├── FeedbackPanel.jsx
-│   │   │   └── HistoryView.jsx
-│   │   │
-│   │   ├── hooks
-│   │   │   ├── useAI.js
-│   │   │   └── useHistory.js
-│   │   │
-│   │   ├── data
-│   │   │   └── questions.js
-│   │   │
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   │
-│   └── vite.config.js
-│
-├── server                # Node.js backend
-│   ├── models
-│   │   └── Attempt.js
-│   │
-│   ├── routes
-│   │   ├── feedback.js
-│   │   └── history.js
-│   │
-│   └── index.js
-│
-└── README.md
-```
+- **AI Feedback** — Real-time evaluation of your answers scored on Correctness, Clarity and Efficiency
+- **35+ Questions** — DSA, HR, System Design and CS Fundamentals (OS, DBMS, CN)
+- **Code Editor** — Syntax-highlighted editor with line numbers for DSA questions
+- **Camera Confidence Monitor** — Uses device camera to track confidence during practice
+- **Performance Analytics** — Visual charts showing your progress over time
+- **Practice History** — Every attempt saved to MongoDB with score and time taken
+- **JWT Authentication** — Secure login/register, each user sees only their own history
+- **Timer** — Countdown timer to simulate real interview pressure
+- **Dark/Light Mode** — Toggle between themes
+- **Difficulty Badges** — Easy / Medium / Hard labels on every question
 
 ---
 
-# 🚀 Getting Started
+## 🛠️ Tech Stack
 
-## 1️⃣ Clone the repository
+### Frontend
+| Technology | Purpose |
+|------------|---------|
+| React 18 + Vite | UI framework and build tool |
+| CodeMirror | Syntax-highlighted code editor |
+| Recharts | Performance analytics charts |
+| CSS Variables | Theming (dark/light mode) |
+| WebRTC | Camera access for confidence monitoring |
 
+### Backend
+| Technology | Purpose |
+|------------|---------|
+| Node.js + Express | REST API server |
+| MongoDB + Mongoose | Database for users and attempts |
+| JWT + bcryptjs | Authentication and password hashing |
+| Groq API (LLaMA 3) | AI feedback generation |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js v18+
+- MongoDB Atlas account (free)
+- Groq API key (free at console.groq.com)
+
+### Installation
+
+**1. Clone the repo**
 ```bash
 git clone https://github.com/HarshitRawat17/interview-ai.git
 cd interview-ai
 ```
 
----
-
-# 2️⃣ Install dependencies
-
-### Frontend
-
+**2. Setup Backend**
+```bash
+cd server
+npm install
+cp .env.example .env
 ```
+
+Add your keys to `server/.env`:
+```env
+GROQ_API_KEY=gsk_your_key_here
+MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/interview-ai
+JWT_SECRET=your_secret_key
+PORT=5000
+```
+
+**3. Setup Frontend**
+```bash
 cd client
 npm install
 ```
 
-### Backend
+**4. Run the app**
 
-```
-cd ../server
-npm install
-```
-
----
-
-# 3️⃣ Setup environment variables
-
-Create `.env` inside **server**
-
-```
-GROQ_API_KEY=your_groq_key
-MONGO_URI=your_mongodb_connection
-PORT=5000
-```
-
-Get your Groq key here:
-
-https://console.groq.com
-
----
-
-# 4️⃣ Run the backend
-
-```
+Terminal 1 (backend):
+```bash
 cd server
 npm run dev
 ```
 
-Server runs at:
-
-```
-http://localhost:5000
-```
-
----
-
-# 5️⃣ Run the frontend
-
-```
+Terminal 2 (frontend):
+```bash
 cd client
 npm run dev
 ```
 
-Frontend runs at:
+Open **http://localhost:5173** 🎉
+
+---
+
+## 📁 Project Structure
 
 ```
-http://localhost:5173
+interview-ai/
+├── client/                      # React Frontend
+│   └── src/
+│       ├── components/
+│       │   ├── AuthPage.jsx     # Login/Register UI
+│       │   ├── FeedbackPanel.jsx
+│       │   ├── HistoryView.jsx
+│       │   └── Sidebar.jsx
+│       ├── hooks/
+│       │   ├── useAI.js         # Groq API calls
+│       │   ├── useAuth.js       # JWT auth logic
+│       │   └── useHistory.js    # Attempt history
+│       ├── data/questions.js    # 35+ question bank
+│       └── App.jsx
+│
+└── server/                      # Node.js Backend
+    ├── middleware/auth.js        # JWT middleware
+    ├── models/
+    │   ├── User.js              # User schema
+    │   └── Attempt.js           # Attempt schema
+    ├── routes/
+    │   ├── auth.js              # Register/Login
+    │   ├── feedback.js          # AI feedback
+    │   └── history.js           # CRUD attempts
+    └── index.js
 ```
 
 ---
 
-# 🧠 Example AI Feedback
+## 🔌 API Endpoints
 
-Example response from Groq:
-
-```
-Correctness: 8/10
-Clarity: 7/10
-Efficiency: 9/10
-
-Your approach using a hash map achieves O(n) time complexity,
-which is optimal for this problem. However the explanation could
-be clearer by describing how collisions are handled.
-```
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| POST | `/api/auth/register` | Create account | ❌ |
+| POST | `/api/auth/login` | Login + get JWT | ❌ |
+| POST | `/api/feedback` | Get AI feedback | ✅ |
+| GET | `/api/history` | Get user's attempts | ✅ |
+| POST | `/api/history` | Save attempt | ✅ |
+| DELETE | `/api/history` | Clear history | ✅ |
 
 ---
 
-# 🗺 Roadmap
+## 📊 Question Bank
 
-Future improvements planned:
-
-- [ ] Code editor with syntax highlighting
-- [ ] Interview timer mode
-- [ ] Topic progress analytics
-- [ ] Export practice report as PDF
-- [ ] Full mock interview sessions
-- [ ] 30+ curated interview questions
-
----
-
-# 💡 Why I Built This
-
-As a **BTech CSE 2026 placement student**, I wanted a tool that provides **real interview-style feedback**, not just correct/incorrect answers.
-
-This project helped me practice:
-
-- Full-stack architecture
-- API integration
-- AI prompt engineering
-- React state management
-- Backend API design
-- MongoDB data modeling
+| Category | Count | Topics |
+|----------|-------|--------|
+| DSA | 15 | Arrays, DP, Trees, Graphs, LinkedList, Stack, Heap |
+| HR | 8 | Introduction, Behavioral, Motivation |
+| System Design | 5 | URL Shortener, Chat App, Netflix, Rate Limiter |
+| CS Fundamentals | 7 | OS, DBMS, Computer Networks |
+| **Total** | **35** | |
 
 ---
 
-# 📸 Screenshots
+## 🗺️ Roadmap
 
-*(Will be added after UI polish)*
-
----
-
-# 🤝 Contributing
-
-Contributions are welcome!
-
-If you'd like to:
-
-- Add more interview questions
-- Improve UI
-- Add analytics
-- Improve AI prompts
-
-Feel free to fork the repository and submit a pull request.
+- [x] React frontend with AI feedback
+- [x] Node.js + Express backend
+- [x] MongoDB database integration
+- [x] JWT authentication
+- [x] Code editor with syntax highlighting
+- [x] Camera confidence monitor
+- [x] Performance analytics charts
+- [x] Practice history with time tracking
+- [x] Dark/Light mode
+- [ ] Deploy to Vercel + Render
 
 ---
 
-# 📄 License
+## 🧠 Key Technical Decisions
 
-MIT License
+**Why Groq over OpenAI?**
+Groq's LLaMA 3 model is completely free (14,400 requests/day), extremely fast, and gives high quality structured feedback. I evaluated both and chose Groq for the free tier without compromising on output quality.
+
+**Why JWT over sessions?**
+JWT is stateless — the server doesn't need to store session data. This makes the API scalable and easier to deploy. Each token contains the user's id and name, verified on every protected request.
+
+**Why separate frontend and backend repos?**
+They are deployed independently — frontend on Vercel, backend on Render. Separating them follows industry standard practices and allows independent scaling.
+
+---
+
+## 👨‍💻 Author
+
+**Harshit Rawat**
+- GitHub: [@HarshitRawat17](https://github.com/HarshitRawat17)
+- BTech CSE 2026
+
+---
+
+## 📄 License
+
+MIT License — feel free to use this project for learning and inspiration.
+
+---
+
+<div align="center">
+  <b>Built with ❤️ for BTech CSE 2026 placements</b><br/>
+  If this helped you, consider giving it a ⭐
+</div>
