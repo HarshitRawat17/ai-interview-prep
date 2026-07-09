@@ -54,6 +54,7 @@ export default function App() {
   const [view, setView] = useState('practice')
   const [time, setTime] = useState(0)
   const [theme, setTheme] = useState(() => localStorage.getItem('interviewai_theme') || 'dark')
+  const [showAuth, setShowAuth] = useState(false)
 
   const question = questions?.find(q => q.id === currentId)
   const [answer, setAnswer] = useState(getEditorTemplate(question))
@@ -102,7 +103,6 @@ export default function App() {
     }
   }, [result])
 
-  if (!auth.user) return <AuthPage auth={auth} />
   if (!question) return <div>Loading...</div>
 
   const isDark = theme === 'dark'
@@ -181,6 +181,15 @@ export default function App() {
           >
             {isDark ? '☀️ Light' : '🌙 Dark'}
           </button>
+
+          {!auth.user && (
+            <button
+              onClick={() => setShowAuth(true)}
+              className="px-3 sm:px-4 py-1.5 rounded-lg whitespace-nowrap bg-gradient-to-r from-indigo-500 to-purple-500 hover:opacity-90 text-white font-medium transition"
+            >
+              Login / Signup
+            </button>
+          )}
         </div>
       </header>
 
@@ -200,6 +209,8 @@ export default function App() {
             questions={questions}
             onLogout={auth.logout}
             theme={theme}
+            user={auth.user}
+            onAuthClick={() => setShowAuth(true)}
           />
         </div>
 
@@ -313,7 +324,12 @@ export default function App() {
                 )}
 
                 {view === 'history' && (
-                  <HistoryView history={history} onClear={clearHistory} />
+                  <HistoryView
+                    history={history}
+                    onClear={clearHistory}
+                    user={auth.user}
+                    onAuthClick={() => setShowAuth(true)}
+                  />
                 )}
 
                 {view === 'analytics' && (
@@ -350,6 +366,10 @@ export default function App() {
           </div>
         </div>
       </div>
+
+      {showAuth && (
+        <AuthPage auth={auth} onClose={() => setShowAuth(false)} />
+      )}
     </div>
   )
 }

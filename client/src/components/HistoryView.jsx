@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function HistoryView({ history, onClear }) {
+export default function HistoryView({ history, onClear, user, onAuthClick }) {
 
   // ✅ format seconds → mm:ss
   function formatTime(sec) {
@@ -26,6 +26,26 @@ export default function HistoryView({ history, onClear }) {
           Clear
         </button>
       </div>
+
+      {!user && (
+        <div style={{
+          border: '1px dashed #a78bfa',
+          background: 'rgba(167,139,250,0.08)',
+          padding: '0.75rem 1rem',
+          borderRadius: 8,
+          marginBottom: '1rem',
+          fontSize: 14
+        }}>
+          You're browsing as a guest, so attempts aren't saved.{' '}
+          <button
+            onClick={onAuthClick}
+            style={{ color: '#818cf8', textDecoration: 'underline', cursor: 'pointer' }}
+          >
+            Sign up
+          </button>{' '}
+          to track your progress over time.
+        </div>
+      )}
 
       {history.length === 0 ? (
         <p>No attempts yet</p>

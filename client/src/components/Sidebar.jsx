@@ -5,7 +5,9 @@ export default function Sidebar({
   onSelect,
   questions,
   onLogout,
-  theme = 'dark'
+  theme = 'dark',
+  user = null,
+  onAuthClick = () => {}
 }) {
   const categories = ["DSA", "HR", "System Design", "CS Fundamentals"]
   const [activeCategory, setActiveCategory] = useState("DSA")
@@ -79,12 +81,21 @@ export default function Sidebar({
       </div>
 
       <div className={`p-4 border-t ${isDark ? 'border-slate-800' : 'border-slate-200'}`}>
-        <button
-          onClick={onLogout}
-          className="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg text-sm font-medium"
-        >
-          Logout
-        </button>
+        {user ? (
+          <button
+            onClick={onLogout}
+            className="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg text-sm font-medium"
+          >
+            Logout
+          </button>
+        ) : (
+          <button
+            onClick={onAuthClick}
+            className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:opacity-90 text-white py-2 rounded-lg text-sm font-medium"
+          >
+            Login / Signup
+          </button>
+        )}
       </div>
     </div>
   )
